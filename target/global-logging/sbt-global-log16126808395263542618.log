@@ -1,0 +1,8 @@
+[debug] > Exec(scalafmt, None, None)
+[error] Not a valid command: scalafmt (similar: last)
+[error] Not a valid project ID: scalafmt
+[error] Expected ':'
+[error] Not a valid key: scalafmt (similar: scalaHome, scalaArtifacts, scalaInstance)
+[error] scalafmt
+[error]         ^
+[debug] > Exec(idea-shell, None, None)
