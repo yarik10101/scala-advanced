@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/scala-advanced.iml" filepath="$PROJECT_DIR$/.idea/modules/scala-advanced.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scala-advanced-build.iml" filepath="$PROJECT_DIR$/.idea/modules/scala-advanced-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scala-advanced/scala-advanced.scala-advanced-build.iml" filepath="$PROJECT_DIR$/.idea/modules/scala-advanced/scala-advanced.scala-advanced-build.iml" />
     </modules>
   </component>
 </project>

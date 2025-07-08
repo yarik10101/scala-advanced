@@ -57,30 +57,35 @@ case class EmptySet[A]() extends MySet[A] {
 
   override def isEmpty: Boolean = true
 
-  override def unary_! : MySet[A] = new AllInclusiveSet[A]
+  override def unary_! : MySet[A] = new PropertyBasedSet[A](x => true)
 
 }
 class PropertyBasedSet[A](property: A => Boolean) extends MySet[A] {
-  def contains(x: A): Boolean = apply(x)
+  override def contains(x: A): Boolean = property(x)
 
-  def +(y: A): PropertyBasedSet[A] = new PropertyBasedSet()[A] {
-    def apply(x: A): Boolean = contains(x) || x == y
-  }
+  override def +(y: A): PropertyBasedSet[A] = new PropertyBasedSet[A](x => property(x) || x == y)
 
-  def ++(anotherSet: PropertyBasedSet[A]): PropertyBasedSet[A] = new PropertyBasedSet[A] {
-    def apply(x: A): Boolean = this.contains(x) || anotherSet.contains(x)
-  }
+  override def ++(anotherSet: MySet[A]): PropertyBasedSet[A] = new PropertyBasedSet[A](x => this.contains(x) || anotherSet.contains(x))
 
-  def map[B](f: A => B): PropertyBasedSet[B] = throw new Exception("no map for u")
+  override def map[B](f: A => B): PropertyBasedSet[B] = throw new Exception("no map for u")
 
-  def flatMap[B](f: A => PropertyBasedSet[B]): PropertyBasedSet[B] = throw new Exception("no fMap for u")
+  override def flatMap[B](f: A => MySet[B]): PropertyBasedSet[B] = throw new Exception("no fMap for u")
 
-  def filter(predicate: A => Boolean): PropertyBasedSet[A] = new PropertyBasedSet[A] {
-    def apply(x: A): Boolean = predicate(x)
-  }
+  override def filter(predicate: A => Boolean): PropertyBasedSet[A] = new PropertyBasedSet[A](x => predicate(x) && property(x))
 
-  def foreach(f: A => Unit): Unit = throw new Exception("go foreach yourself")
+  override def foreach(f: A => Unit): Unit = throw new Exception("go foreach yourself")
 
+  override def -(elem: A): MySet[A] = new PropertyBasedSet[A](x => property(x) && x != elem)
+
+  override def &(anotherSet: MySet[A]): MySet[A] = new PropertyBasedSet[A](x => contains(x) && anotherSet.contains(x))
+
+  override def --(anotherSet: MySet[A]): MySet[A] = new PropertyBasedSet[A](x => contains(x) && !anotherSet.contains(x))
+
+  override def isEmpty: Boolean = throw new Exception("vpadlupizdec")
+
+  override def unary_! : MySet[A] = new PropertyBasedSet[A](x => !contains(x))
+
+  override def apply(v1: A): Boolean = property(v1)
 }
 
 
@@ -123,11 +128,9 @@ case class NonEmptySet[A](head: A, tail: MySet[A]) extends MySet[A] {
   override def &(anotherSet: MySet[A]): MySet[A] = filter(anotherSet)
 
   override def --(anotherSet: MySet[A]): MySet[A] = filter(!anotherSet)
-//  filter(x => !anotherSet.contains(x))
-  def unary_! : MySet[A] = new MySet[A] {
-    override def contains(elem: A): Boolean = !apply(elem)
-  }
 
+  //  filter(x => !anotherSet.contains(x))
+  def unary_! : MySet[A] = new PropertyBasedSet[A](x => !contains(x))
 }
   object MySet {
     def apply[A](x: A*): MySet[A] = {
@@ -145,7 +148,7 @@ case class NonEmptySet[A](head: A, tail: MySet[A]) extends MySet[A] {
   object set extends App {
 
 
-    val mySet = MySet(1, 2, 3)
+    val mySet = MySet(1, 2, 3, 4)
     val myNewSet = MySet(2, 3, 5)
     //  println(mySet)
     //  println(mySet(4))
@@ -156,4 +159,5 @@ case class NonEmptySet[A](head: A, tail: MySet[A]) extends MySet[A] {
     myNonCommonSet foreach println
 
   }
+
 
