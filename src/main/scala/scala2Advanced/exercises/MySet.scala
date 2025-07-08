@@ -60,7 +60,7 @@ case class EmptySet[A]() extends MySet[A] {
   override def unary_! : MySet[A] = new AllInclusiveSet[A]
 
 }
-class PropertyBasedSet[A](property: A => Boolean) extends MySet[A] {
+class PropertyBasedSet[A](property: A => Booleangit) extends MySet[A] {
   def contains(x: A): Boolean = apply(x)
 
   def +(y: A): PropertyBasedSet[A] = new PropertyBasedSet[A] {
