@@ -57,7 +57,7 @@ case class EmptySet[A]() extends MySet[A] {
 
   override def isEmpty: Boolean = true
 
-  override def unary_! : MySet[A] = new PropertyBasedSet[A](x => true)
+  override def unary_! : MySet[A] = new PropertyBasedSet[A](_ => true)
 
 }
 class PropertyBasedSet[A](property: A => Boolean) extends MySet[A] {
