@@ -33,10 +33,21 @@ class someCurried(f: Int => Int) {
   val add7classcurried = new someCurried(curriedAddMethod(7))
 
   val add731 = curriedAddMethod(7) _
+  val add7312 = curriedAddMethod(7)(_)
   val add732: Int => Int = curriedAddMethod(7)
   val add721 = simpleAddMethod(7, _)
   val add711 = simpleAddFunction(7, _)
+
+
   val add712 = (x: Int) => simpleAddFunction(7, x)
+  val add_2 = simpleAddFunction.curried(7)
+  val add_3 = simpleAddMethod(7, _: Int)
 
   println(add7classfunction2(5))
+
+ // "%4.2f".format(Math.PI)
+  val test = "%4.2f".format(3.00)
+  val myListOfNums = List(1.2626, 288.2, 0.0202002)
+  val fin = myListOfNums.map(x =>"%4.2f".format(x)).map(y => y.toString)
+  println(fin)
 }
