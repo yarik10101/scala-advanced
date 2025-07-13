@@ -43,11 +43,22 @@ class someCurried(f: Int => Int) {
   val add_2 = simpleAddFunction.curried(7)
   val add_3 = simpleAddMethod(7, _: Int)
 
-  println(add7classfunction2(5))
+//  println(add7classfunction2(5))
 
  // "%4.2f".format(Math.PI)
-  val test = "%4.2f".format(3.00)
+  val test = (_:String).format(3.00)
+//  println(test("%4.2f"))
+
   val myListOfNums = List(1.2626, 288.2, 0.0202002)
-  val fin = myListOfNums.map(x =>"%4.2f".format(x)).map(y => y.toString)
-  println(fin)
+  val fin = (x: String) => myListOfNums.map(y => x.format(y))
+//  println(fin("%4.2f"))
+
+
+  def curriedFormatter(s: String)(number: Double): String = s.format(number)
+  val numbers = List(Math.PI, Math.E, 1, 0.00001, 100.000)
+
+  val simpleformat = curriedFormatter("%4.2f") _
+  println(numbers.map(simpleformat))
+
+
 }
